@@ -419,6 +419,9 @@ static void mf_repdata_do_replace
             
             if (to_position <= (nom->position - nom->pattern->ptext.length))
                 break;
+
+            if ((nom->position - nom->pattern->ptext.length) < rd->curser)
+                continue; //TODO
             
             /* Append the space before pattern */
             mf_repdata_appendfactor (rd, rd->curser, /* from */
