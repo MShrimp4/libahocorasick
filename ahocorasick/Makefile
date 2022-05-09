@@ -1,20 +1,20 @@
 LIBNAME := ahocorasick
 BUILD_DIRECTORY := build/
-LIB_TARGET := $(BUILD_DIRECTORY)lib$(LIBNAME).a
+LIB_TARGET := $(BUILD_DIRECTORY)lib$(LIBNAME).so
 HEADER_FILES := $(wildcard *.h)
 OBJECT_FILES := $(addprefix $(BUILD_DIRECTORY),$(patsubst %.c,%.o,$(wildcard *.c)))
 CFLAGS := -Wall
-COMPILER := cc
+COMPILER := gcc
 
 .PHONY : clean
 
 all: $(LIB_TARGET)
 
 $(LIB_TARGET): $(BUILD_DIRECTORY) $(OBJECT_FILES)
-	ar -cvq $(LIB_TARGET) $(OBJECT_FILES)
+	$(COMPILER) --shared -o $(LIB_TARGET) $(OBJECT_FILES)
 
 $(BUILD_DIRECTORY)%.o: %.c $(HEADER_FILES)
-	$(COMPILER) -o $@ -c $< $(CFLAGS)
+	$(COMPILER) -fPIC -o $@ -c $< $(CFLAGS)
 
 $(BUILD_DIRECTORY):
 	@mkdir -p $(BUILD_DIRECTORY)
